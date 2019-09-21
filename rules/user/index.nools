@@ -1,0 +1,38 @@
+define User {
+    constructor: function(options){
+        this.age = options.age
+    },
+
+    toString : function(){
+        return `User(age: ${this.age})`;
+    }
+}
+
+rule 'Check Age Less Than 32' {
+    when {
+        u: User u.age lte 32
+    }
+    then {
+        emit('return-result', `User's age ${u.age} is less than or equal to 32`);
+        halt();
+    }
+}
+
+rule 'Check Age Between 32 and 40' {
+    when {
+        u: User u.age gt 32 and u.age lt 40
+    }
+    then {
+        emit('return-result', `User's age ${u.age} is greater than 32 and less than 40`);
+        halt();
+    }
+}
+
+rule 'Default Case' {
+    when {
+        u: User u.age
+    }
+    then {
+        emit('return-result', `User's age is ${u.age}`)
+    }
+}
